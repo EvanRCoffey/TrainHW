@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Train Scheduler</title>
+	<!-- Bootstrap Link -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!--jQuery link-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!--Firebase initialization-->
+	<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyC6YcMGLoyWwZJ5CdpEV9RxEIgL6UxNpgo",
+	    authDomain: "trainhw-34100.firebaseapp.com",
+	    databaseURL: "https://trainhw-34100.firebaseio.com",
+	    storageBucket: "trainhw-34100.appspot.com",
+	    messagingSenderId: "368204179476"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+	<!--External Javascript File-->
+	<script type="text/javascript" src="assets/javascript/app.js"></script>
+	<!--External CSS File-->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="textboxes">
+
+	<!--Textboxes and submit button-->
+	Train name:<br>
+	<input type="text" id="trainName"><br>
+
+	Destination:<br>
+	<input type="text" id="destination"><br>
+
+	First train time (HH:mm - Military time):<br>
+	<input type="text" id="firstTrainTime"><br>
+
+	Frequency (in minutes):<br>
+	<input type="text" id="frequency"><br>
+
+	<button onclick="getTextboxes()">Submit</button><br><br>
+
+</div>
+
+</body>
+</html>
