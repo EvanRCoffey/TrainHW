@@ -1,30 +1,61 @@
-var trainName = "";
-var destination = "";
-var firstTrainTime = "";
-var frequency = "";
-
 var database = firebase.database();
 
+//Populate table with firebase data whenever page loads or a new train is added
+database.ref().on('child_added', function(snapshot) {
+	
+	// Initial Values
+    var data = snapshot.val();
+    var tName = data.name;
+    var tDest = data.dest;
+    var tFreq = data.freq;
+
+    var tTime = data.firstTime;
+
+    // Assumptions
+	var tFrequency = tFreq;
+
+	// Time is 3:30 AM
+	var firstTime = tTime;
+
+	// First Time (pushed back 1 year to make sure it comes before current time)
+	var firstTimeConverted = moment(firstTime, "hh:mm");
+
+	// Current Time
+	var currentTime = moment();
+
+	// Difference between the times
+	var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+
+	// Time apart (remainder)
+	var tRemainder = diffTime % tFrequency;
+
+	// Minute Until Train
+	var tMinutesTillTrain = tFrequency - tRemainder;
+
+	// Next Train
+	var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+
+	// Append results to the table #tbody
+	$("#tbody").append("<tr><td>" + tName + "</td>" + "<td>" + tDest + "</td>" + "<td>" + tFreq + "<td>" + moment(nextTrain).format("hh:mm") + "</td>" + "<td>" + tMinutesTillTrain + "</td>" + "</td></tr>");
+});
+
+//When submit button is clicked
 function getTextboxes() {
-	trainName = document.getElementById("trainName").value;
-	destination = document.getElementById("destination").value;
-	firstTrainTime = document.getElementById("firstTrainTime").value;
-	frequency = document.getElementById("frequency").value;
+	//Read values from textboxes
+	var trainName = document.getElementById("trainName").value;
+	var destination = document.getElementById("destination").value;
+	var firstTrainTime = document.getElementById("firstTrainTime").value;
+	var frequency = document.getElementById("frequency").value;
 
-	//Log values for error checking
-	console.log(trainName);
-	console.log(destination);
-	console.log(firstTrainTime);
-	console.log(frequency);
-
-	//Send values to firebase
+	//Push values to firebase
 	writeTrainData(trainName, destination, firstTrainTime, frequency);
 	function writeTrainData(trainName, destination, firstTrainTime, frequency) {
-	  firebase.database().ref().set({
+	  firebase.database().ref().push({
 	    name: trainName,
 	    dest: destination,
 	    firstTime : firstTrainTime,
-	    freq : frequency
+	    freq : frequency,
+	    dateAdded:firebase.database.ServerValue.TIMESTAMP
 	  });
 	}
 
