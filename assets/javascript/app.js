@@ -18,7 +18,7 @@ database.ref().on('child_added', function(snapshot) {
 	var firstTime = tTime;
 
 	// First Time (pushed back 1 year to make sure it comes before current time)
-	var firstTimeConverted = moment(firstTime, "hh:mm");
+	var firstTimeConverted = moment(firstTime, "HH:mm");
 
 	// Current Time
 	var currentTime = moment();
